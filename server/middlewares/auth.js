@@ -15,12 +15,14 @@ const generateRefreshToken = (user) => {
 
 // verifying token
 const verifyaccessToken = async (req, res, next) => {
+  // check if token exist
   // console.log(req.headers);
   // console.log(req.cookies);
   // check if token exist
   console.log(req.headers);
   const authHeaders = req.headers['authorization'];
   console.log(`AUTH_HEADERS: ${authHeaders}`);
+  // const authHeaders = req.headers['authorization'];
 
   const accesstoken = req.body.accessToken || req.headers.token || authHeaders.split(' ')[1];
   if (!accesstoken) {
@@ -31,11 +33,9 @@ const verifyaccessToken = async (req, res, next) => {
     accesstoken,
     process.env.ACCESS_TOKEN_SECRETE,
     (err, user) => {
-      console.log(user);
       if (err) {
         res.status(401).end(err.message);
       } else {
-        // console.log(user);
         // Passing data to the next middleware
         req.userDetails = user;
         next();
@@ -49,23 +49,19 @@ const verifyrefreshToken = async (req, res, next) => {
   console.log(`COOKIES: ${req.cookies['refreshToken']}`);
   // check if token exist
   const refreshtoken = req.cookies['refreshToken'] || req.headers.refreshtoken;
-  console.log(`COOKIE_TOKEN: ${refreshtoken}`);
   if (!refreshtoken) {
     return res
       .status(401)
       .json({ message: 'A refresh token is required for token refreshment' });
   }
 
-  console.log(`REFRESH: ${process.env.REFRESH_TOKEN_SECRETE}`);
   return Jwt.verify(
     refreshtoken,
     process.env.REFRESH_TOKEN_SECRETE,
     (err, user) => {
       if (err) {
-        console.log(`ERR: ${err}`);
         res.status(401).end(err.message);
       } else {
-        console.log(user);
         const accessToken = Jwt.sign(
           {
             user: user.email,
@@ -76,8 +72,8 @@ const verifyrefreshToken = async (req, res, next) => {
           process.env.ACCESS_TOKEN_SECRETE,
           { expiresIn: '10m' },
         );
-        
-        res.status(201).json({role: user.role, accessToken: accessToken });
+
+        res.status(201).json({ role: user.role, accessToken: accessToken });
       }
       next();
     },

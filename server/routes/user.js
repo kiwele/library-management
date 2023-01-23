@@ -34,7 +34,9 @@ router.post('/login', upload.none(), userLogin);
 router.post('/add_book', upload.single('file'), AddBook).get('/books', viewAllBook);
 
 // delete book
-router.post('/delete_book/:id', deleteBook);
+router.delete('/delete_book/:id', deleteBook);
+// edit book
+router.put('/edit_book/:id', editBook);
 // view book
 router.get('/view_book/:id', viewBook);
 

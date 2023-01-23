@@ -87,7 +87,8 @@ const userLogin = async (req, res) => {
           );
 
           const expiration = 3600000;
-          res.cookie('refreshToken', refreshToken, {
+          // eslint-disable-next-line quotes
+          res.cookie("refreshToken", refreshToken, {
             secure: true,
             httpOnly: true,
             expires: new Date(Date.now() + expiration),

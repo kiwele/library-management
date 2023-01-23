@@ -3,7 +3,6 @@
 /* eslint-disable no-useless-catch */
 /* eslint-disable camelcase */
 import bcrypt from 'bcryptjs';
-// import Jwt from 'jsonwebtoken';
 import { Op } from 'sequelize';
 import db from '../database.js';
 
@@ -15,14 +14,12 @@ const { favouriteBooks } = db.favouriteBooks;
 
 // admin add book
 const AddBook = async (req, res) => {
-  // console.log(req.body);
-  // console.log(req.file);
+  console.log(req.headers);
   const bookDetails = {
     bookName: req.body.bookName,
     Description: req.body.Description,
     picture: req.file.filename,
   };
-  console.log(bookDetails);
 
   try {
     books.create(bookDetails);
@@ -56,7 +53,7 @@ const deleteBook = async (req, res) => {
         book_id: req.params.id,
       },
     });
-    res.status(200).json({ message: 'book successifully deleted' });
+    res.status(200).json({ message: 'book is successifully deleted' });
   } catch (error) {
     res.sendStatus(500);
   }
@@ -78,6 +75,7 @@ const viewBook = async (req, res) => {
 // get all books
 const viewAllBook = async (req, res) => {
   try {
+    console.log(req.headers);
     const booksFound = await books.findAll();
     res.status(200).json(booksFound);
   } catch (error) {
@@ -135,17 +133,19 @@ const deleteUser = async (req, res) => {
 
 // user like book
 const likeBook = async (req, res) => {
-  const likeDetails = {
-    bookId: req.params.id,
-    userId: req.userDetails.id,
-  };
+  // console.log(req.cookies);
+  // console.log(req.headers);
+  // const likeDetails = {
+  //   bookId: req.params.id,
+  //   userId: req.userDetails.id,
+  // };
 
-  try {
-    await like.create(likeDetails);
-    res.sendStatus(204);
-  } catch (error) {
-    throw error;
-  }
+  // try {
+  //   await like.create(likeDetails);
+  //   res.sendStatus(204);
+  // } catch (error) {
+  //   throw error;
+  // }
 };
 
 // user comment book
@@ -202,7 +202,7 @@ const unmarkFavoriteBook = async (req, res) => {
 const popularBooks = async (req, res) => {
   try {
     const Likes = await like.findAll();
-    console.log(likes);
+    console.log(Likes);
     // popular = findPopular(Likes, )
 
     // res.status(200).json(booksFound);
@@ -229,4 +229,5 @@ export {
   markFavoriteBook,
   unmarkFavoriteBook,
   popularBooks,
+  findPopular,
 };
