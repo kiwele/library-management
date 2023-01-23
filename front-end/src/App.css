@@ -1,0 +1,78 @@
+.App {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-content: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 5rem;
+  }
+body {
+  margin: 0;
+  padding: 0px;
+}
+.Sidebar {
+  display: table-cell;
+  height: 100%;
+  width: 15%;
+  background-color: #2F4050;
+  vertical-align: top;
+}
+.sidebarList{
+  height: auto;
+  width: 100%;
+}
+.sidebarList .row {
+  width: 80%;
+  height: 50px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.sidebarList .row:hover {
+  cursor: pointer;
+  background-color: #293846;
+}
+
+.sidebarList #active {
+  background-color: #d6e2ec ;
+}
+
+/* .App {
+  display: flex;
+  justify-content: center;
+  margin-top: 5rem;
+} */
+input {
+  display: block;
+  width: 20rem;
+  height: 2rem;
+  padding: 0.5rem;
+  font-size: 1.1em;
+  font-weight: 500;
+  margin-bottom: 2rem;
+}
+button {
+  border: none;
+  padding: 1rem;
+  width: 21.2rem;
+  font-size: 1.2em;
+  border-radius: 0.2rem;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #c5c5c5;
+}
+.message {
+  font-size: 1.2em;
+  text-align: center;
+  color: #36a936;
+}
+.BookContainer {
+  background-image: url("https://source.unsplash.com/random");
+}
