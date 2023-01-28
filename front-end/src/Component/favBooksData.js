@@ -14,7 +14,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import CommentIcon from "@mui/icons-material/Comment";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import SendIcon from "@mui/icons-material/Send";
 import TextField from "@mui/material/TextField";
 import Input from "@mui/material";
@@ -24,45 +24,23 @@ import { useEffect } from "react";
 import axios from "axios";
 // import "./pages/App.css"
 import { useSelector, useDispatch } from "react-redux";
-import { commentBook, favoriteBook, getAllBook, likeBook } from "../redux/books";
+import { getAllFavoriteBook } from "../redux/favoriteBookSlice";
 
 const theme = createTheme();
 
-export default function BookData() {
+export default function FavBookData() {
+  const [data, setData] = useState({ coment: "" });
 
-  const [data, setData] = useState({coment: ""});
+  const { favBooks } = useSelector((state) => state.favBook);
 
-
-  const { books } = useSelector((state) => state.book);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllBook());
+    dispatch(getAllFavoriteBook());
   }, [dispatch]);
 
-  const handleLike = (id) => {
-    dispatch(likeBook(id));
-  };
+//   console.log(favBooks);
 
-  const handleFavorite = (id) => {
-    dispatch(favoriteBook(id));
-  };
-
-  const handleComment = (id) =>{
-
-    setData({
-      coment: "musa",
-    })
-
-    let dataSent = {
-      id: id,
-      coment: data.coment
-    }
-    dispatch(commentBook(dataSent))
-
-  }
-
-  //  console.log(books)
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -84,7 +62,7 @@ export default function BookData() {
               color="text.primary"
               gutterBottom
             >
-              All Books
+              All Your Favorite Books
             </Typography>
             <Typography
               variant="h5"
@@ -108,7 +86,8 @@ export default function BookData() {
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {books.map((book, index) => (
+            {favBooks.map((book, index) => (
+               
               <Grid item key={index} xs={12} sm={6} md={4}>
                 <Card
                   sx={{
@@ -123,44 +102,15 @@ export default function BookData() {
                       // 16:9
                       pt: "56.25%",
                     }}
-                    image={`//localhost:4000/uploads/${book.picture}`}
+                    image={`//localhost:4000/uploads/${book.book.picture}`}
                     alt={book.originalName}
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      {book.bookName}
+                      {book.book.bookName}
                     </Typography>
-                    <Typography>{book.Description}</Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small"
-                    onClick={() => handleFavorite(book.book_id)}>
-                      <FavoriteIcon/>
-                    </Button>
-                    <Button
-                      size="small"
-                      onClick={() => handleLike(book.book_id)}
-                    >
-                      <ThumbUpIcon />
-                      like
-                    </Button>
-                  </CardActions>
-                  <CardActions>
-                  <form>                    
-                        <TextField
-                          id="standard-multiline-flexible"
-                          label="Coment"
-                          multiline
-                          maxRows={4}
-                          variant="standard"
-                          onChange={(e) => setData({...data, coment: e.target.value })}
-
-                          InputProps={{endAdornment: <Button size="small" onClick={() => handleComment(book.book_id)}>
-                          <SendIcon />
-                        </Button>}}
-                        />                     
-                  </form>
-                     </CardActions>
+                    <Typography>{book.book.Description}</Typography>
+                  </CardContent>          
                 </Card>
               </Grid>
             ))}

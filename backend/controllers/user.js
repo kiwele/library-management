@@ -47,6 +47,7 @@ const editBook = async (req, res) => {
 
 // admin delete book
 const deleteBook = async (req, res) => {
+  console.log(req.headers);
   try {
     await books.destroy({
       where: {
@@ -56,6 +57,22 @@ const deleteBook = async (req, res) => {
     res.status(200).json({ message: 'book is successifully deleted' });
   } catch (error) {
     res.sendStatus(500);
+  }
+};
+
+// user like book
+const likeBook = async (req, res) => {
+  console.log(req.params.bookId);
+  const likeDetails = {
+    bookId: req.params.bookId,
+    userId: req.userDetails.id,
+  };
+
+  try {
+    await like.create(likeDetails);
+    res.sendStatus(204);
+  } catch (error) {
+    throw error;
   }
 };
 
@@ -77,6 +94,36 @@ const viewAllBook = async (req, res) => {
   try {
     console.log(req.headers);
     const booksFound = await books.findAll();
+    res.status(200).json(booksFound);
+  } catch (error) {
+    throw error;
+  }
+};
+
+// get all popular books
+const getPopulaBooks = async (req, res) => {
+  try {
+    console.log(req.headers);
+    const booksFound = await books.findAll();
+    res.status(200).json(booksFound);
+  } catch (error) {
+    throw error;
+  }
+};
+
+// get all my favority books
+const getFavoriteBooks = async (req, res) => {
+  console.log('here');
+  try {
+    const booksFound = await favouriteBooks.findAll(
+      {
+        where: { userId: req.userDetails.id },
+        include: {
+          model: books,
+        },
+      },
+    );
+    console.log(booksFound);
     res.status(200).json(booksFound);
   } catch (error) {
     throw error;
@@ -131,28 +178,13 @@ const deleteUser = async (req, res) => {
   }
 };
 
-// user like book
-const likeBook = async (req, res) => {
-  // console.log(req.cookies);
-  // console.log(req.headers);
-  // const likeDetails = {
-  //   bookId: req.params.id,
-  //   userId: req.userDetails.id,
-  // };
 
-  // try {
-  //   await like.create(likeDetails);
-  //   res.sendStatus(204);
-  // } catch (error) {
-  //   throw error;
-  // }
-};
 
 // user comment book
 const comentBook = async (req, res) => {
   const comentDetails = {
     comment: req.body.coment,
-    bookId: req.params.id,
+    bookId: req.params.bookId,
     userId: req.userDetails.id,
   };
 
@@ -221,6 +253,7 @@ export {
   deleteBook,
   viewBook,
   viewAllBook,
+  getFavoriteBooks,
   viewUser,
   editUser,
   deleteUser,

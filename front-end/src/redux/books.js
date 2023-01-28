@@ -1,14 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-// import { axiosPrivate } from "../axios";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+
 import bookService from "../services/book.service";
 
 const baseURL = "http://localhost:4000/";
-const token = localStorage.getItem('token');
+// const token = localStorage.getItem('token');
 
 
-// const axiosPrivate = useAxiosPrivate();
+
 // add book in db
 export const addBook =  createAsyncThunk("book/addBook", (addedBook) => {
   try {
@@ -23,23 +22,25 @@ export const addBook =  createAsyncThunk("book/addBook", (addedBook) => {
 
 // get all books
 export const getAllBook = createAsyncThunk("book/getAllBook", async () => {
-      //  const axiosPrivate = useAxiosPrivate();
+    
   try {
-    // const response = await bookService.serviceGetBooks();
-    const response = await axios.get(baseURL + "books")
+  
+    const response = await axios.get(baseURL + "books",
 
-    // {
-    //   headers: {
-    //     "token": localStorage.getItem("token")
-    //   } 
-    // }
-    // )
-    console.log(response)
+    { 
+         headers: {
+        "token": localStorage.getItem("token")
+      },
+      withCredentials: true }
+    )
+
     return response.data
   } catch (error) {
     console.log(error);
   }
 })
+
+
 
 // edit book 
 export const editBook = createAsyncThunk("book/editBook", async (editedBook) => {
@@ -56,7 +57,14 @@ export const editBook = createAsyncThunk("book/editBook", async (editedBook) => 
 export const deleteBook = createAsyncThunk("book/deleteBook",async (id) => {
 
   try {
-  const response = axios.delete(baseURL + "delete_book/" + id )
+  const response = axios.delete(baseURL + "delete_book/" + id,
+  
+  { 
+    headers: {
+   "token": localStorage.getItem("token")
+ },
+ withCredentials: true }
+ )
   return response.data
     
   } catch (error) {
@@ -65,21 +73,54 @@ export const deleteBook = createAsyncThunk("book/deleteBook",async (id) => {
 
 })
 
-export const likeBook = createAsyncThunk("book/likeBook", (id) => {
-  // const axiosPrivate = useAxiosPrivate();
+export const likeBook = createAsyncThunk("book/likeBook", async (id) => {
   try {
-    const response = axios.post(baseURL + "like/" + id,
-    {
-   
-      
+    const response = await axios.get(baseURL + "like/" + id,
+    { 
       headers: {
-        // "Content-Type": "multipart/form-data",
-        "token": localStorage.getItem("token")
-      } 
-    })
+     "token": localStorage.getItem("token")
+   },
+   withCredentials: true }
+    )
     return response.data
     
   } catch (error) {
+    console.log(error);
+    
+  }
+})
+export const favoriteBook = createAsyncThunk("book/favoriteBook", async (id) => {
+  try {
+    const response = await axios.get(baseURL + "mark/" + id,
+    { 
+      headers: {
+     "token": localStorage.getItem("token")
+   },
+   withCredentials: true }
+    )
+    return response.data
+    
+  } catch (error) {
+    console.log(error);
+    
+  }
+})
+
+export const commentBook =  createAsyncThunk("book/comentBook", async (data) => {
+  try {
+
+    const response = await axios.post(baseURL + "coment/"+ data.id, data,
+    
+    { 
+      headers: {
+     "token": localStorage.getItem("token")
+   },
+   withCredentials: true }
+    )
+    
+    return response.data
+  } catch (error) {
+
     console.log(error);
     
   }
@@ -132,6 +173,18 @@ export const bookSlice = createSlice({
     },
 
     [likeBook.fulfilled]: (state, action) => {
+      return {
+        ...state,
+        books: [...state],
+      }
+    },
+    [favoriteBook.fulfilled]: (state, action) => {
+      return {
+        ...state,
+        books: [...state],
+      }
+    },
+    [commentBook.fulfilled]: (state, action) => {
       return {
         ...state,
         books: [...state],

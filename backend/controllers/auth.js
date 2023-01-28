@@ -90,7 +90,7 @@ const userLogin = async (req, res) => {
           // eslint-disable-next-line quotes
           res.cookie("refreshToken", refreshToken, {
             secure: true,
-            httpOnly: true,
+            httpOnly: false,
             expires: new Date(Date.now() + expiration),
           });
           res.status(200).json({

@@ -17,11 +17,8 @@ const generateRefreshToken = (user) => {
 const verifyaccessToken = async (req, res, next) => {
   // check if token exist
   // console.log(req.headers);
-  // console.log(req.cookies);
-  // check if token exist
-  console.log(req.headers);
   const authHeaders = req.headers['authorization'];
-  console.log(`AUTH_HEADERS: ${authHeaders}`);
+  // console.log(`AUTH_HEADERS: ${authHeaders}`);
   // const authHeaders = req.headers['authorization'];
 
   const accesstoken = req.body.accessToken || req.headers.token || authHeaders.split(' ')[1];

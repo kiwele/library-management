@@ -5,7 +5,7 @@ import multer from 'multer';
 import path from 'path';
 
 import { register, userLogin, logout } from '../controllers/auth.js';
-import { AddBook, comentBook, deleteBook, deleteUser, editBook, editUser, likeBook, markFavoriteBook, unmarkFavoriteBook, viewAllBook, viewBook, viewUser } from '../controllers/user.js';
+import { AddBook, comentBook, deleteBook, deleteUser, editBook, editUser, getFavoriteBooks, likeBook, markFavoriteBook, unmarkFavoriteBook, viewAllBook, viewBook, viewUser } from '../controllers/user.js';
 import { verifyaccessToken } from '../middlewares/auth.js';
 
 const router = express.Router();
@@ -32,6 +32,7 @@ router.post('/login', upload.none(), userLogin);
 
 // admin add book
 router.post('/add_book', upload.single('file'), AddBook).get('/books', viewAllBook);
+router.get('/favorites', verifyaccessToken, getFavoriteBooks);
 
 // delete book
 router.delete('/delete_book/:id', deleteBook);
@@ -49,16 +50,16 @@ router.post('/edit_user/:id', editUser);
 router.post('/delete_user/:id', deleteUser);
 
 // like book
-router.post('/like/:bookId', verifyaccessToken, likeBook);
+router.get('/like/:bookId', verifyaccessToken, likeBook);
 
 // comment book
 router.post('/coment/:bookId', upload.none(), verifyaccessToken, comentBook);
 
 // mark book
-router.post('/mark/:bookId', verifyaccessToken, markFavoriteBook);
+router.get('/mark/:bookId', verifyaccessToken, markFavoriteBook);
 
 // unmark book
-router.post('/unmark/:bookId', verifyaccessToken, unmarkFavoriteBook);
+router.get('/unmark/:bookId', verifyaccessToken, unmarkFavoriteBook);
 
 // handle user logout
 router.get('/logout', logout);
