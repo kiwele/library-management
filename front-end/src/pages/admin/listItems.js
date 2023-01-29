@@ -71,7 +71,7 @@ export default function SecondaryListItems () {
      </List>
    </Collapse>
 
-    <ListItemButton >
+    <ListItemButton onClick = {()=>{window.location.pathname = '/users'}} >
       <ListItemIcon>
       <ManageAccountsIcon/>
       </ListItemIcon>

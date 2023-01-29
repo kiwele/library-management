@@ -5,7 +5,7 @@ import multer from 'multer';
 import path from 'path';
 
 import { register, userLogin, logout } from '../controllers/auth.js';
-import { AddBook, comentBook, deleteBook, deleteUser, editBook, editUser, getFavoriteBooks, likeBook, markFavoriteBook, unmarkFavoriteBook, viewAllBook, viewBook, viewUser } from '../controllers/user.js';
+import { AddBook, comentBook, deleteBook, deleteUser, editBook, editUser, getFavoriteBooks, getUsers, likeBook, markFavoriteBook, popularBooks, unmarkFavoriteBook, viewAllBook, viewBook, viewUser } from '../controllers/user.js';
 import { verifyaccessToken } from '../middlewares/auth.js';
 
 const router = express.Router();
@@ -41,6 +41,8 @@ router.put('/edit_book/:id', editBook);
 // view book
 router.get('/view_book/:id', viewBook);
 
+router.get('/users', getUsers);
+router.delete('/delete_user/:id', deleteUser);
 // view user
 router.get('/view_user/:id', viewUser);
 // edit user
@@ -60,6 +62,8 @@ router.get('/mark/:bookId', verifyaccessToken, markFavoriteBook);
 
 // unmark book
 router.get('/unmark/:bookId', verifyaccessToken, unmarkFavoriteBook);
+
+router.get('/popularBooks', popularBooks);
 
 // handle user logout
 router.get('/logout', logout);

@@ -25,20 +25,22 @@ import axios from "axios";
 // import "./pages/App.css"
 import { useSelector, useDispatch } from "react-redux";
 import { getAllFavoriteBook } from "../redux/favoriteBookSlice";
+import { getAllpopularBook } from "../redux/popularBookSlice";
 
 const theme = createTheme();
 
-export default function FavBookData() {
+export default function PopBookData() {
+  const [data, setData] = useState({ coment: "" });
 
-  const { favBooks } = useSelector((state) => state.favBook);
+  const { popBooks } = useSelector((state) => state.popBook);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllFavoriteBook());
+    dispatch(getAllpopularBook());
   }, [dispatch]);
 
-//   console.log(favBooks);
+  console.log(popBooks);
 
   return (
     <ThemeProvider theme={theme}>
@@ -61,7 +63,7 @@ export default function FavBookData() {
               color="text.primary"
               gutterBottom
             >
-              All Your Favorite Books
+              Popular Books
             </Typography>
             <Typography
               variant="h5"
@@ -83,7 +85,7 @@ export default function FavBookData() {
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {favBooks.map((book, index) => (
+            {popBooks.map((book, index) => (
                
               <Grid item key={index} xs={12} sm={6} md={4}>
                 <Card
@@ -99,14 +101,14 @@ export default function FavBookData() {
                       // 16:9
                       pt: "56.25%",
                     }}
-                    image={`//localhost:4000/uploads/${book.book.picture}`}
+                    image={`//localhost:4000/uploads/${book.picture}`}
                     alt={book.originalName}
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      {book.book.bookName}
+                      {book.bookName}
                     </Typography>
-                    <Typography>{book.book.Description}</Typography>
+                    <Typography>{book.Description}</Typography>
                   </CardContent>          
                 </Card>
               </Grid>

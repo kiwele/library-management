@@ -16,7 +16,6 @@ import { useState } from 'react';
 import axios from 'axios';
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
 
 
 
@@ -24,7 +23,6 @@ const theme = createTheme();
 
 export default function SignInSide() {
 
-  const { setAuth } = useAuth()
 
   const [data, setData] = useState({  username: "", password:"" })
   const navigate = useNavigate();
@@ -49,7 +47,7 @@ export default function SignInSide() {
       if(response.status === 200 && response.data.user.role === 2)
       {
         localStorage.setItem('token', response.data.user.accessToken)
-        setAuth(response.data.user);
+        // setAuth(response.data.user);
         // toast.success('Login successifully')
         navigate("/books")
         console.log(response)
@@ -57,7 +55,7 @@ export default function SignInSide() {
       if(response.status === 200 && response.data.user.role === 1){
         localStorage.setItem('token', response.data.user.accessToken)
         // toast.success('Login successifully')
-        setAuth(response.data.user);
+        // setAuth(response.data.user);
         navigate("/user_dashboard")
         console.log(response.data.user.accessToken)
       }

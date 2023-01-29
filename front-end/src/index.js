@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import Home from "./pages/Home";
 import { Route, Routes, Link, BrowserRouter } from "react-router-dom";
-import { AuthProvider } from './context/AuthProvider';
 import Register from './pages/register';
 import { Provider } from 'react-redux';
 import store from './redux/store';
@@ -16,6 +15,8 @@ import AddBook from './pages/admin/addBook';
 import ManageBooks from './pages/admin/manageBooks';
 import AdminPopular from './pages/admin/adminPopular';
 import AdminFavourite from './pages/admin/adminFavourite';
+import UserDataTable from './pages/admin/userList';
+import ManageUsers from './pages/admin/manageUsers';
 
 
 
@@ -29,7 +30,6 @@ root.render(
    <Provider store={store}>
 
       <BrowserRouter>
-      <AuthProvider>
 
          <Routes>
            <Route path="/home" element ={<Home />}/>
@@ -42,10 +42,9 @@ root.render(
            <Route path="/admin_favourite_books" element ={<AdminFavourite />}/>
            <Route path="/user_dashboard" element ={<UserDashboard />}/>
            <Route path="/manage_book" element ={<ManageBooks />}/>
+           <Route path="/users" element ={<ManageUsers />}/>
            <Route  path='/*' element = {<App />}/>
          </Routes>
-
-      </AuthProvider>
      </BrowserRouter> 
      </Provider>
 

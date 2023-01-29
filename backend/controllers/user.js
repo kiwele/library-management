@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-console */
 /* eslint-disable import/extensions */
 /* eslint-disable no-useless-catch */
@@ -131,6 +133,16 @@ const getFavoriteBooks = async (req, res) => {
 };
 
 // admin view user
+const getUsers = async (req, res) => {
+  try {
+    const usersFound = await User.findAll();
+    res.status(200).json(usersFound);
+  } catch (error) {
+    throw error;
+  }
+};
+
+// admin view user
 const viewUser = async (req, res) => {
   try {
     const userFound = await User.findOne({
@@ -177,8 +189,6 @@ const deleteUser = async (req, res) => {
     res.sendStatus(500);
   }
 };
-
-
 
 // user comment book
 const comentBook = async (req, res) => {
@@ -231,21 +241,62 @@ const unmarkFavoriteBook = async (req, res) => {
   }
 };
 
+function findPopular(arr) {
+  // Step 1: Create an object to store the count of each item in the array
+  const count = {};
+
+  // Step 2: Iterate through the array and increment the count for each item in the object
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i];
+    if (count[item]) {
+      count[item]++;
+    } else {
+      count[item] = 1;
+    }
+  }
+
+  // Step 3: Find the item with the count greater than 4 in the object
+  const popularItems = [];
+  const minCount = 2;
+  for (const item in count) {
+    if (count[item] > minCount) {
+      popularItems.push(item);
+    }
+  }
+
+  return popularItems;
+}
+
 const popularBooks = async (req, res) => {
   try {
-    const Likes = await like.findAll();
-    console.log(Likes);
-    // popular = findPopular(Likes, )
+    const Likes = await like.findAll(
+      {
+        attributes: ['bookId'],
+      },
+    );
+    // map likes data to get new array
+    const newArr = Likes.map((book) => book.bookId);
 
-    // res.status(200).json(booksFound);
+    const popular = findPopular(newArr);
+
+    const arr2 = [];
+
+    for (let i = 0; i < popular.length; i++) {
+      const booksFound = books.findOne({
+        where: { book_id: popular[i] },
+      });
+
+      arr2.push(booksFound);
+    }
+    const data = await Promise.all(arr2);
+    res.status(200).json(data);
   } catch (error) {
     throw error;
   }
 };
 
-function findPopular(arr, e) {
-  return arr.filter((currentElement) => currentElement === e).length;
-}
+// const arr = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4];
+// console.log(findPopular(arr));
 
 export {
   AddBook,
@@ -254,6 +305,7 @@ export {
   viewBook,
   viewAllBook,
   getFavoriteBooks,
+  getUsers,
   viewUser,
   editUser,
   deleteUser,

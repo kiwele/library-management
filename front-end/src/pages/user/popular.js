@@ -18,6 +18,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { usermainListItems } from './userListItems';
 import BookData from '../../Component/booksData';
+import PopBookData from '../../Component/popularBooksData';
 
 function Copyright(props) {
   return (
@@ -196,7 +197,8 @@ function BookContent() {
               <Grid item xs={12}>
                 {/* <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                   <Orders /> */}
-                  <BookData/>
+                  {/* <BookData/> */}
+                  <PopBookData/>
                 {/* </Paper> */}
               </Grid>
 
