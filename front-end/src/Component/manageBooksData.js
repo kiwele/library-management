@@ -1,40 +1,21 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
-import CameraIcon from "@mui/icons-material/PhotoCamera";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import CommentIcon from "@mui/icons-material/Comment";
-import Checkbox from "@mui/material/Checkbox";
-import { useState, useEffect } from "react";
-import axios from "axios";
-// import "../../public/App.css"
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllBook, deleteBook } from "../redux/books";
 
 const theme = createTheme();
 
-// const DeleteBook =  (id) => {
-
-//   const dispatch = useDispatch();
-//   axios.post(`http://localhost:4000/delete_book/${id}`)
-//   .then((response) => {
-//     dispatch(deleteBook(response.data.book_id))
-//    //  console.log(response.data);
-//   })
-// }
 
 export default function ManageBookData() {
   const { books } = useSelector((state) => state.book);

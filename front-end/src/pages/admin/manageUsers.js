@@ -13,17 +13,13 @@ import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems } from './listItems';
 import SecondaryListItems from './listItems';
-import RegisterBook from './registerBook';
-import AddBook from './addBook';
 // import BookData from '../Component/booksData';
-import ManageBookData from '../../Component/manageBooksData';
 import UserDataTable from './userList';
 
 
@@ -95,8 +91,8 @@ function DashboardContent() {
   const toggleDrawer = () => {
     setOpen(!open);
   };
-  const [data, setData] = useState({ bookName: "", Description: "" });
-  const [file, setFile] = useState();
+  // const [data, setData] = useState({ bookName: "", Description: "" });
+  // const [file, setFile] = useState();
 
   return (
     <ThemeProvider theme={mdTheme}>

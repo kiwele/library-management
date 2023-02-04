@@ -13,25 +13,23 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import CommentIcon from "@mui/icons-material/Comment";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import SendIcon from "@mui/icons-material/Send";
 import TextField from "@mui/material/TextField";
-import Input from "@mui/material";
-import InputLabel from "@mui/material";
-import Checkbox from "@mui/material/Checkbox";
 import { useEffect } from "react";
-import axios from "axios";
 // import "./pages/App.css"
 import { useSelector, useDispatch } from "react-redux";
-import { commentBook, favoriteBook, getAllBook, likeBook } from "../redux/books";
+import {
+  commentBook,
+  favoriteBook,
+  getAllBook,
+  likeBook,
+} from "../redux/books";
 
 const theme = createTheme();
 
 export default function BookData() {
-
-  const [data, setData] = useState({coment: ""});
-
+  const [data, setData] = useState({ coment: "" });
 
   const { books } = useSelector((state) => state.book);
   const dispatch = useDispatch();
@@ -48,19 +46,17 @@ export default function BookData() {
     dispatch(favoriteBook(id));
   };
 
-  const handleComment = (id) =>{
-
+  const handleComment = (id) => {
     setData({
       coment: "musa",
-    })
+    });
 
     let dataSent = {
       id: id,
-      coment: data.coment
-    }
-    dispatch(commentBook(dataSent))
-
-  }
+      coment: data.coment,
+    };
+    dispatch(commentBook(dataSent));
+  };
 
   //  console.log(books)
   return (
@@ -99,8 +95,7 @@ export default function BookData() {
               direction="row"
               spacing={2}
               justifyContent="center"
-            >
-            </Stack>
+            ></Stack>
           </Container>
         </Box>
         <Container sx={{ py: 8 }} maxWidth="md">
@@ -131,9 +126,11 @@ export default function BookData() {
                     <Typography>{book.Description}</Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small"
-                    onClick={() => handleFavorite(book.book_id)}>
-                      <FavoriteIcon/>
+                    <Button
+                      size="small"
+                      onClick={() => handleFavorite(book.book_id)}
+                    >
+                      <FavoriteIcon />
                     </Button>
                     <Button
                       size="small"
@@ -144,21 +141,29 @@ export default function BookData() {
                     </Button>
                   </CardActions>
                   <CardActions>
-                  <form>                    
-                        <TextField
-                          id="standard-multiline-flexible"
-                          label="Coment"
-                          multiline
-                          maxRows={4}
-                          variant="standard"
-                          onChange={(e) => setData({...data, coment: e.target.value })}
-
-                          InputProps={{endAdornment: <Button size="small" onClick={() => handleComment(book.book_id)}>
-                          <SendIcon />
-                        </Button>}}
-                        />                     
-                  </form>
-                     </CardActions>
+                    <form>
+                      <TextField
+                        id="standard-multiline-flexible"
+                        label="Coment"
+                        multiline
+                        maxRows={4}
+                        variant="standard"
+                        onChange={(e) =>
+                          setData({ ...data, coment: e.target.value })
+                        }
+                        InputProps={{
+                          endAdornment: (
+                            <Button
+                              size="small"
+                              onClick={() => handleComment(book.book_id)}
+                            >
+                              <SendIcon />
+                            </Button>
+                          ),
+                        }}
+                      />
+                    </form>
+                  </CardActions>
                 </Card>
               </Grid>
             ))}

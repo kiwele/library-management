@@ -16,7 +16,6 @@ const { favouriteBooks } = db.favouriteBooks;
 
 // admin add book
 const AddBook = async (req, res) => {
-  console.log(req.headers);
   const bookDetails = {
     bookName: req.body.bookName,
     Description: req.body.Description,
@@ -51,12 +50,13 @@ const editBook = async (req, res) => {
 const deleteBook = async (req, res) => {
   console.log(req.headers);
   try {
-    await books.destroy({
+    const deletedBook = await books.destroy({
       where: {
         book_id: req.params.id,
       },
     });
-    res.status(200).json({ message: 'book is successifully deleted' });
+    console.log(deletedBook);
+    res.status(200).json({ message: 'book is successifully deleted', deletedBook });
   } catch (error) {
     res.sendStatus(500);
   }
