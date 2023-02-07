@@ -50,13 +50,15 @@ const editBook = async (req, res) => {
 const deleteBook = async (req, res) => {
   console.log(req.headers);
   try {
-    const deletedBook = await books.destroy({
+    await books.destroy({
       where: {
         book_id: req.params.id,
       },
     });
-    console.log(deletedBook);
-    res.status(200).json({ message: 'book is successifully deleted', deletedBook });
+    // console.log(deletedBook, 'here');
+    res
+      .status(200)
+      .json({ message: 'book is successifully deleted', id: req.params.id });
   } catch (error) {
     res.sendStatus(500);
   }
@@ -72,7 +74,7 @@ const likeBook = async (req, res) => {
 
   try {
     await like.create(likeDetails);
-    res.sendStatus(204);
+    res.sendStatus(200);
   } catch (error) {
     throw error;
   }
@@ -117,14 +119,12 @@ const getPopulaBooks = async (req, res) => {
 const getFavoriteBooks = async (req, res) => {
   console.log('here');
   try {
-    const booksFound = await favouriteBooks.findAll(
-      {
-        where: { userId: req.userDetails.id },
-        include: {
-          model: books,
-        },
+    const booksFound = await favouriteBooks.findAll({
+      where: { userId: req.userDetails.id },
+      include: {
+        model: books,
       },
-    );
+    });
     console.log(booksFound);
     res.status(200).json(booksFound);
   } catch (error) {
@@ -225,16 +225,14 @@ const markFavoriteBook = async (req, res) => {
 // user unmark favourite book
 const unmarkFavoriteBook = async (req, res) => {
   try {
-    await favouriteBooks.destroy(
-      {
-        where: {
-          [Op.and]: [
-            { bookId: req.params.bookId },
-            { userId: req.userDetails.id },
-          ],
-        },
+    await favouriteBooks.destroy({
+      where: {
+        [Op.and]: [
+          { bookId: req.params.bookId },
+          { userId: req.userDetails.id },
+        ],
       },
-    );
+    });
     res.sendStatus(204);
   } catch (error) {
     throw error;
@@ -269,11 +267,9 @@ function findPopular(arr) {
 
 const popularBooks = async (req, res) => {
   try {
-    const Likes = await like.findAll(
-      {
-        attributes: ['bookId'],
-      },
-    );
+    const Likes = await like.findAll({
+      attributes: ['bookId'],
+    });
     // map likes data to get new array
     const newArr = Likes.map((book) => book.bookId);
 

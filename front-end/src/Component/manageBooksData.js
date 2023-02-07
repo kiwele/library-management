@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-expressions */
 import * as React from "react";
 import Button from "@mui/material/Button";
+import { Alert } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -16,19 +18,28 @@ import { getAllBook, deleteBook } from "../redux/books";
 
 const theme = createTheme();
 
-
 export default function ManageBookData() {
-  const { books } = useSelector((state) => state.book);
+  const books = useSelector((state) => state.book);
+  console.log(books);
   const dispatch = useDispatch();
 
   //  get all books
   useEffect(() => {
-    dispatch(getAllBook());
+    
+    const interveal = setInterval(() => {
+      dispatch(getAllBook());
+
+    }, 1000)
+
+    return interveal
   }, [dispatch]);
- 
+
   // delete book by admin
-  const handleDeleteBook = (id) => {
+  const handleDeleteBook = async (id) => {
     dispatch(deleteBook(id));
+    (await books.deleteBookStatus) === "success" ? (
+      <Alert severity="success"> book deleted </Alert>
+    ) : null;
   };
 
   return (
@@ -37,9 +48,14 @@ export default function ManageBookData() {
 
       <main>
         <Container sx={{ py: 8 }} maxWidth="md">
+
+        {books.deleteBookStatus === "success" ? (
+                      <Alert severity="success"> book deleted sucessifully </Alert>
+                    ) : null}
+
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {books.map((book, index) => (
+            {books.books.map((book, index) => (
               <Grid item key={index} xs={12} sm={6} md={4}>
                 <Card
                   sx={{

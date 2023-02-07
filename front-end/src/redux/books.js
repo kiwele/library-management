@@ -30,7 +30,7 @@ export const getAllBook = createAsyncThunk("book/getAllBook", async () => {
         withCredentials: true,
       }
     );
-
+   console.log(response);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -57,7 +57,7 @@ export const editBook = createAsyncThunk(
 // delete book
 export const deleteBook = createAsyncThunk("book/deleteBook", async (id) => {
   try {
-    const response = axios.delete(
+    const response = await axios.delete(
       baseURL + "delete_book/" + id,
 
       {
@@ -67,7 +67,7 @@ export const deleteBook = createAsyncThunk("book/deleteBook", async (id) => {
         withCredentials: true,
       }
     );
-    console.log(response.data);
+    // console.log(response.data.id);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -82,7 +82,7 @@ export const likeBook = createAsyncThunk("book/likeBook", async (id) => {
       },
       withCredentials: true,
     });
-    console.log(response.data);
+    console.log(response);
     return response;
   } catch (error) {
     console.log(error);
@@ -178,8 +178,10 @@ export const bookSlice = createSlice({
 
     [deleteBook.fulfilled]: (state, action) => {
       const currentBooks = state.books.filter(
-        (deletedBook) => deletedBook.book_id !== action.payload.book_id
+        (deletedBook) => deletedBook.book_id !== action.payload.id
       );
+      // console.log(action.payload.id);
+      // console.log(currentBooks);
 
       return {
         ...state,
